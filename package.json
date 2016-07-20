@@ -1,0 +1,21 @@
+{
+  "name": "Shuffle",
+  "version": "1.0.0",
+  "main": "howler.min.js",
+  "dependencies": {
+    "animate.css": "^3.5.1",
+    "animejs": "^1.1.0",
+    "webpack": "^1.13.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "directories": {
+    "test": "test"
+  },
+  "description": ""
+}
