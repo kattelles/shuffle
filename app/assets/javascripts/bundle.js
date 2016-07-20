@@ -1103,9 +1103,9 @@
 	let createTrack = function(track) {
 	  trackList[track.id] = track;
 	    $("#track-list").append(
-	      "<div>" + track.title + " " +
-	        "<i class='fa fa-play' id=" + track.id + " aria-hidden='true'></i>"
+	      "<div>" + track.title + " "
 	        + "<i class='fa fa-trash-o' id=" + track.id + " aria-hidden='true'></i>"
+	        +  "<i class='fa fa-play' id=" + track.id + " aria-hidden='true'></i>"
 	        + "</div>");
 	
 	    $("#" + track.id).click(function(e) {
