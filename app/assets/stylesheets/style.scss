@@ -1,0 +1,251 @@
+body {
+  /*position: relative;*/
+}
+
+.fireworks {
+  background-color: #18212d;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  // cursor: pointer;
+}
+
+.animated.flipInX {
+  -webkit-animation-duration: 1500ms;
+  -webkit-backface-visibility: visible !important;
+  backface-visibility: visible !important;
+  -webkit-animation-name: flipInX;
+  animation-name: flipInX;
+  -webkit-animation-timing-function: ease-in;
+   animation-timing-function: ease-in;
+   opacity: 1;
+}
+
+#text {
+  -webkit-animation-duration: 300ms;
+  position: absolute;
+  color: #C70039;
+  font-family: Happy Monkey;
+  text-align: center;
+  position: fixed;
+  top: 40%;
+  left: 38%;
+}
+
+#title {
+  font-size: 75px;
+}
+
+#instructions {
+  opacity: 0;
+  font-size: 20px;
+  color: #FF5733;
+}
+
+
+#top-line {
+  display: flex;
+  justify-content: space-around;
+}
+
+#note {
+  font-size: 65px;
+  /*color: #581845;*/
+}
+
+#instructions img {
+  width: 20px;
+  height: auto;
+  margin-left: 3px;
+  margin-right: 3px;
+}
+
+.pulse {
+  -webkit-animation-name: pulse;
+  animation-name: pulse;
+}
+
+#track-list {
+  font-size: 20px;
+  padding-top: 5px;
+  color: #C70039;
+  font-family: Happy Monkey;
+}
+
+#track-list div {
+  font-size: 16px;
+}
+
+#track-list i {
+  padding: 2px;
+  cursor: pointer;
+}
+/* ==========================================================================
+   MENU CONFIGURATION
+   ========================================================================== */
+
+.menu {
+	position: fixed;
+	right: -200px;
+	width: 260px;
+	height: 100%;
+	top: 0;
+	z-index: 10;
+	text-align: left;
+}
+
+.menu.menu-open {
+	right: 0px;
+}
+
+.menu-wrap {
+  padding-left: 10px;
+  padding-top: 10px;
+	position: absolute;
+	top: 0;
+	left: 60px;
+	background: white;
+	width: 200px;
+	height: 100%;
+}
+
+.menu-close {
+	cursor: pointer;
+	display: block;
+	position: absolute;
+	font-size: 14px;
+	color: #808080;
+	width: 40px;
+	height: 40px;
+	line-height: 40px;
+	top: 20px;
+	right: 5px;
+	-webkit-transition: all .1s ease-in-out;
+	   -moz-transition: all .1s ease-in-out;
+		-ms-transition: all .1s ease-in-out;
+		 -o-transition: all .1s ease-in-out;
+			transition: all .1s ease-in-out;
+}
+
+.menu-close:hover {
+	color: #ffffff;
+	-webkit-transition: all .1s ease-in-out;
+	   -moz-transition: all .1s ease-in-out;
+		-ms-transition: all .1s ease-in-out;
+		 -o-transition: all .1s ease-in-out;
+			transition: all .1s ease-in-out;
+}
+
+/* Push the body after clicking the menu button */
+.body-push {
+	overflow-x: hidden;
+	position: relative;
+	left: 0;
+}
+
+.body-push-toright {
+	left: 200px;
+}
+
+.body-push-toleft {
+	left: -200px;
+}
+
+.menu,
+.body-push {
+	-webkit-transition: all .3s ease;
+	   -moz-transition: all .3s ease;
+		-ms-transition: all .3s ease;
+		 -o-transition: all .3s ease;
+			transition: all .3s ease;
+}
+
+#menuToggle {
+	position: absolute;
+	top: 15px;
+	left: 0;
+	z-index: 11;
+	display: block;
+	text-align: center;
+	font-size: 14px;
+	color: #ffffff;
+	width: 50px;
+	height: 50px;
+	line-height: 40px;
+	// background: rgba(0,0,0,0.25);
+	-webkit-transition: all .1s ease-in-out;
+	   -moz-transition: all .1s ease-in-out;
+		-ms-transition: all .1s ease-in-out;
+		 -o-transition: all .1s ease-in-out;
+			transition: all .1s ease-in-out;
+}
+
+#menuToggle i {
+  border-radius: 3px;
+  	cursor: pointer;
+    color: #FF5733;
+    background-color: white;
+    padding: 10px;
+}
+
+#menuToggle:hover {
+	color: #ffffff;
+	// background: rgba(0,0,0,0.2);
+	-webkit-transition: all .1s ease-in-out;
+	   -moz-transition: all .1s ease-in-out;
+		-ms-transition: all .1s ease-in-out;
+		 -o-transition: all .1s ease-in-out;
+			transition: all .1s ease-in-out;
+}
+
+#controls {
+  color: #C70039;
+  font-family: Happy Monkey;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#controls div {
+  border: 1px solid #C70039;
+  border-radius: 3px;
+  margin: 5px;
+  width: 150px;
+  height: auto;
+  padding: 5px;
+  text-align: center;
+  cursor: pointer;
+}
+
+#controls input {
+  border: 1px solid #C70039;
+  border-radius: 3px;
+  margin: 5px;
+  width: 150px;
+  height: auto;
+  padding: 5px;
+  text-align: center;
+  color: #C70039;
+  font-family: Happy Monkey;
+}
+
+#controls span {
+  font-size: 20px;
+}
+
+::-webkit-input-placeholder {
+  color: #C70039;
+  opacity: .5;
+  font-family: Happy Monkey;
+}
+
+.footer {
+    color: #C70039;
+    bottom: 15px;
+    position: absolute;
+}
+.footer i {
+  cursor: pointer;
+}

@@ -7,11 +7,13 @@ const Track = require("./tracks.js");
 const fireworks = (function(ctx, canvas) {
   let recording = false;
   let currentTrack = [];
+  let currentSounds = [];
   let title;
   let typing = false;
 
   $("#start").click(function(e) {
     currentTrack = [];
+    currentSounds = [];
     recording = true;
   });
 
@@ -33,7 +35,8 @@ const fireworks = (function(ctx, canvas) {
 
   $("#save").click(function(e) {
     title = $("#track-title").val();
-    Track.saveTrack(title, currentTrack);
+    Track.saveTrack(title, currentSounds);
+    title = $("#track-title").val("");
   });
 
   let getFontSize = function() {
@@ -210,6 +213,7 @@ const fireworks = (function(ctx, canvas) {
 
       if (recording === true) {
         currentTrack.push(howl);
+        currentSounds.push(Sounds[e.keyCode]);
       }
 
 

@@ -46,6 +46,7 @@
 
 	const LogoStart = __webpack_require__(1);
 	const Animations = __webpack_require__(4);
+	const Track = __webpack_require__(8);
 	
 	document.addEventListener("DOMContentLoaded", function(){
 	  const canvas = document.getElementById('canvas');
@@ -55,6 +56,14 @@
 	
 	  Animations(ctx, canvas);
 	  LogoStart();
+	  Track.fetchTracks();
+	
+	  // menu
+	  $('#menuToggle, .menu-close').on('click', function(){
+	    $('#menuToggle').toggleClass('active');
+	    $('body').toggleClass('body-push-toleft');
+	    $('#theMenu').toggleClass('menu-open');
+	  });
 	
 	});
 
@@ -796,11 +805,13 @@
 	const fireworks = (function(ctx, canvas) {
 	  let recording = false;
 	  let currentTrack = [];
+	  let currentSounds = [];
 	  let title;
 	  let typing = false;
 	
 	  $("#start").click(function(e) {
 	    currentTrack = [];
+	    currentSounds = [];
 	    recording = true;
 	  });
 	
@@ -822,7 +833,8 @@
 	
 	  $("#save").click(function(e) {
 	    title = $("#track-title").val();
-	    Track.saveTrack(title, currentTrack);
+	    Track.saveTrack(title, currentSounds);
+	    title = $("#track-title").val("");
 	  });
 	
 	  let getFontSize = function() {
@@ -999,6 +1011,7 @@
 	
 	      if (recording === true) {
 	        currentTrack.push(howl);
+	        currentSounds.push(Sounds[e.keyCode]);
 	      }
 	
 	
@@ -1083,6 +1096,40 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	const Animations = __webpack_require__(4);
+	const Howler = __webpack_require__(6);
+	
+	let trackList = {};
+	
+	let createTrack = function(track) {
+	  trackList[track.id] = track;
+	    $("#track-list").append(
+	      "<div>" + track.title + " " +
+	        "<i class='fa fa-play' id=" + track.id + " aria-hidden='true'></i>"
+	        + "<i class='fa fa-trash-o' id=" + track.id + " aria-hidden='true'></i>"
+	        + "</div>");
+	
+	    $("#" + track.id).click(function(e) {
+	      let roll = trackList[track.id].roll;
+	      let howls = [];
+	      roll.forEach(sound => {
+	        let howl = new Howl({
+	            urls: sound
+	        });
+	        howls.push(howl);
+	      });
+	      playArr(howls);
+	  });
+	};
+	
+	let receiveTracks = function(tracks) {
+	    tracks.forEach(track => {
+	      createTrack(track);
+	    });
+	};
+	
+	let recieveOneTrack = function(track) {
+	  createTrack(track);
+	};
 	
 	let playArr = function(arr) {
 	  if (arr.length === 1) {
@@ -1104,19 +1151,36 @@
 	    playArr(arr);
 	  },
 	
-	  saveTrack: function(title, arr) {
+	  fetchTracks() {
+	    $.ajax({
+	      url: '/api/tracks',
+	      method: 'GET',
+	      success(tracks) {
+	        receiveTracks(tracks);
+	      },
+	      error() {
+	        console.log("error");
+	      },
+	      beforeSend(xhr) {xhr.setRequestHeader('X-CSRF-Token',
+	        $('meta[name="csrf-token"]').attr('content'));}
+	    });
+	  },
+	
+	  saveTrack: function(title, roll) {
 	    $.ajax({
 	      url: '/api/tracks',
 	      method: 'POST',
-	      data: JSON.stringify({ roll: arr, title: title }),
-	      dataType: 'json',
-	      contentType: "application/json",
+	      data: JSON.stringify({title: title, roll: roll}),
+	      // dataType: JSON,
+	      contentType: 'application/json',
+	      success(savedTrack) {
+	        recieveOneTrack(savedTrack);
+	      },
+	      error() {
+	        console.log("error");
+	      },
 	      beforeSend(xhr) {xhr.setRequestHeader('X-CSRF-Token',
-	        $('meta[name="csrf-token"]').attr('content'));},
-	      success(track) {
-	        console.log("success");
-	        console.log(track);
-	      }
+	        $('meta[name="csrf-token"]').attr('content'));}
 	    });
 	  }
 	

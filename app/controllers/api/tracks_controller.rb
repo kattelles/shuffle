@@ -5,9 +5,10 @@ class Api::TracksController < ApplicationController
   end
 
   def create
-    @track = Track.new(track_params)
+    @track = Track.new(title: params[:track][:title],
+                        roll: params[:track][:roll])
     if @track.save
-      render json: @track
+      render json: @track, status: 200
     else
       render json: @track.errors.full_messages, status: :unprocessable_entity
     end
