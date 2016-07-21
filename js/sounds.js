@@ -1,4 +1,5 @@
 module.exports = {
+    32: ['./sounds/tom-analog.wav'],
     65: ['./sounds/tom-analog.wav'],
     66: ['./sounds/snare-noise.wav'],
     67: ['./sounds/tom-lofi.wav'],

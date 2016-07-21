@@ -14,9 +14,10 @@ document.addEventListener("DOMContentLoaded", function(){
 
   // menu
   $('#menuToggle, .menu-close').on('click', function(){
+    $(".bubble").addClass("fadeOutUp");
+    // $(".bubble").remove();
     $('#menuToggle').toggleClass('active');
     $('body').toggleClass('body-push-toleft');
     $('#theMenu').toggleClass('menu-open');
   });
-
 });

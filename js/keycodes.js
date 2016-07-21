@@ -1,4 +1,5 @@
 module.exports = [
+    32,
     65, // a
     66, // b
     67, // c

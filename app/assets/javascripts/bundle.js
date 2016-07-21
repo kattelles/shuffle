@@ -60,11 +60,12 @@
 	
 	  // menu
 	  $('#menuToggle, .menu-close').on('click', function(){
+	    $(".bubble").addClass("fadeOutUp");
+	    // $(".bubble").remove();
 	    $('#menuToggle').toggleClass('active');
 	    $('body').toggleClass('body-push-toleft');
 	    $('#theMenu').toggleClass('menu-open');
 	  });
-	
 	});
 
 
@@ -763,6 +764,7 @@
 /***/ function(module, exports) {
 
 	module.exports = {
+	    32: ['./sounds/tom-analog.wav'],
 	    65: ['./sounds/tom-analog.wav'],
 	    66: ['./sounds/snare-noise.wav'],
 	    67: ['./sounds/tom-lofi.wav'],
@@ -1016,6 +1018,8 @@
 	        animateParticules(a, b);
 	
 	      } else if ( ValidKeys.indexOf(e.keyCode) !== -1 ) {
+	        $(".bubble").css("visibility", "visible");
+	        $('.bubble').addClass('fadeInDown');
 	        updateCoords();
 	        animateParticules(x, y);
 	
@@ -1051,6 +1055,7 @@
 /***/ function(module, exports) {
 
 	module.exports = [
+	    32,
 	    65, // a
 	    66, // b
 	    67, // c

@@ -218,6 +218,8 @@ const fireworks = (function(ctx, canvas) {
         animateParticules(a, b);
 
       } else if ( ValidKeys.indexOf(e.keyCode) !== -1 ) {
+        $(".bubble").css("visibility", "visible");
+        $('.bubble').addClass('fadeInDown');
         updateCoords();
         animateParticules(x, y);
 
