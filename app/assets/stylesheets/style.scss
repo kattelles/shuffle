@@ -215,7 +215,7 @@ body {
 }
 
 #controls div {
-  border: 1px solid #C70039;
+  // border: 1px solid #C70039;
   border-radius: 3px;
   margin: 5px;
   width: 160px;
@@ -223,6 +223,20 @@ body {
   padding: 5px;
   text-align: center;
   cursor: pointer;
+  background-color: #fec22d;
+}
+
+#controls div:last-child {
+  // border: 1px solid #C70039;
+  border-radius: 3px;
+  margin: 5px;
+  width: 160px;
+  height: auto;
+  padding: 5px;
+  text-align: center;
+  cursor: pointer;
+  color: #fec22d;
+  background-color: #8e113f;
 }
 
 #controls input {
@@ -232,6 +246,7 @@ body {
   width: 160px;
   height: auto;
   padding: 5px;
+  margin-top: 20px;
   text-align: center;
   color: #C70039;
   font-family: Happy Monkey;
@@ -262,4 +277,5 @@ body {
 }
 .footer i {
   cursor: pointer;
+  color: #C70039;
 }

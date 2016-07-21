@@ -191,36 +191,49 @@ const fireworks = (function(ctx, canvas) {
   };
 
 
-  $(document).keydown(function(e) {
-    if (typing === false) {
+  $(document).keydown(function(e, fake) {
 
     let remove = function() {
       $('#text').removeClass('pulse');
     };
 
-    if (e.keyCode === undefined) {
-      let a = window.innerWidth/2 - 100;
-      let b = window.innerHeight/2 - 100;
-      animateParticules(a, b);
+    let pulse = function() {
+      $('#text').addClass('pulse');
+      setTimeout(
+        remove
+        , 300);
+    };
 
-    } else if ( ValidKeys.indexOf(e.keyCode) !== -1 ) {
+    if (fake) {
       updateCoords();
       animateParticules(x, y);
+    } else {
 
-      let howl = new Howl({
-          urls: Sounds[e.keyCode]
-      }).play();
+      if (typing === false) {
 
-      if (recording === true) {
-        currentTrack.push(howl);
-        currentSounds.push(Sounds[e.keyCode]);
+      if (e.keyCode === undefined) {
+        let pos = $("#note").offset();
+        let b = pos.top + 35;
+        let a = pos.left ;
+        animateParticules(a, b);
+
+      } else if ( ValidKeys.indexOf(e.keyCode) !== -1 ) {
+        updateCoords();
+        animateParticules(x, y);
+
+        let howl = new Howl({
+            urls: Sounds[e.keyCode]
+        }).play();
+
+        if (recording === true) {
+          currentTrack.push(howl);
+          currentSounds.push(Sounds[e.keyCode]);
+        }
+
+        pulse();
+
       }
-
-
-      $('#text').addClass('pulse');
-      setTimeout(remove, 300);
-    }
-  }
+    }}
   });
 
     window.addEventListener('resize', setCanvasSize, false);

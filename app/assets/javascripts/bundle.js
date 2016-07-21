@@ -989,36 +989,49 @@
 	  };
 	
 	
-	  $(document).keydown(function(e) {
-	    if (typing === false) {
+	  $(document).keydown(function(e, fake) {
 	
 	    let remove = function() {
 	      $('#text').removeClass('pulse');
 	    };
 	
-	    if (e.keyCode === undefined) {
-	      let a = window.innerWidth/2 - 100;
-	      let b = window.innerHeight/2 - 100;
-	      animateParticules(a, b);
+	    let pulse = function() {
+	      $('#text').addClass('pulse');
+	      setTimeout(
+	        remove
+	        , 300);
+	    };
 	
-	    } else if ( ValidKeys.indexOf(e.keyCode) !== -1 ) {
+	    if (fake) {
 	      updateCoords();
 	      animateParticules(x, y);
+	    } else {
 	
-	      let howl = new Howl({
-	          urls: Sounds[e.keyCode]
-	      }).play();
+	      if (typing === false) {
 	
-	      if (recording === true) {
-	        currentTrack.push(howl);
-	        currentSounds.push(Sounds[e.keyCode]);
+	      if (e.keyCode === undefined) {
+	        let pos = $("#note").offset();
+	        let b = pos.top + 35;
+	        let a = pos.left ;
+	        animateParticules(a, b);
+	
+	      } else if ( ValidKeys.indexOf(e.keyCode) !== -1 ) {
+	        updateCoords();
+	        animateParticules(x, y);
+	
+	        let howl = new Howl({
+	            urls: Sounds[e.keyCode]
+	        }).play();
+	
+	        if (recording === true) {
+	          currentTrack.push(howl);
+	          currentSounds.push(Sounds[e.keyCode]);
+	        }
+	
+	        pulse();
+	
 	      }
-	
-	
-	      $('#text').addClass('pulse');
-	      setTimeout(remove, 300);
-	    }
-	  }
+	    }}
 	  });
 	
 	    window.addEventListener('resize', setCanvasSize, false);
@@ -1100,16 +1113,20 @@
 	
 	let trackList = {};
 	
+	let simulateBoom = function() {
+	  $(document).trigger("keydown", ["true"]);
+	};
+	
 	let createTrack = function(track) {
 	  trackList[track.id] = track;
 	    $("#track-list").append(
-	      "<div>" + track.title + " "
+	      "<div id='main" + track.id + "'>" + track.title + " "
 	        + "<i class='fa fa-trash-o' id=" + track.id + " aria-hidden='true'></i>"
 	        +  "<i class='fa fa-play' id=" + track.id + " aria-hidden='true'></i>"
 	        + "</div>");
 	
-	    $("#" + track.id).click(function(e) {
-	      let roll = trackList[track.id].roll;
+	    $(".fa-play").click(function(e) {
+	      let roll = trackList[e.currentTarget.id].roll;
 	      let howls = [];
 	      roll.forEach(sound => {
 	        let howl = new Howl({
@@ -1118,6 +1135,10 @@
 	        howls.push(howl);
 	      });
 	      playArr(howls);
+	  });
+	
+	  $(".fa-trash-o").click(function(e) {
+	      Track.deleteTrack(e.currentTarget.id);
 	  });
 	};
 	
@@ -1134,21 +1155,39 @@
 	let playArr = function(arr) {
 	  if (arr.length === 1) {
 	    setTimeout(function() {
+	      simulateBoom();
 	      arr[0].play();
 	      }, 300);
 	    return;
 	  }
 	
 	  setTimeout(function() {
+	    simulateBoom();
 	    arr[0].play();
 	    return playArr(arr.slice(1));
 	  }, 300);
 	};
 	
+	
+	
 	const Track = {
 	
 	  playTrack: function(arr) {
 	    playArr(arr);
+	  },
+	
+	  deleteTrack: function(id) {
+	    $.ajax({
+	      url: '/api/tracks/' + id,
+	      method: 'DELETE',
+	      success(track) {
+	        // debugger
+	        $("#main" + track.id).remove();
+	      },
+	      beforeSend(xhr) {xhr.setRequestHeader('X-CSRF-Token',
+	        $('meta[name="csrf-token"]').attr('content'));}
+	
+	    });
 	  },
 	
 	  fetchTracks() {
@@ -1163,29 +1202,28 @@
 	      },
 	      beforeSend(xhr) {xhr.setRequestHeader('X-CSRF-Token',
 	        $('meta[name="csrf-token"]').attr('content'));}
-	    });
-	  },
+	      });
+	    },
 	
-	  saveTrack: function(title, roll) {
-	    $.ajax({
-	      url: '/api/tracks',
-	      method: 'POST',
-	      data: JSON.stringify({title: title, roll: roll}),
-	      // dataType: JSON,
-	      contentType: 'application/json',
-	      success(savedTrack) {
-	        recieveOneTrack(savedTrack);
-	      },
-	      error() {
-	        console.log("error");
-	      },
-	      beforeSend(xhr) {xhr.setRequestHeader('X-CSRF-Token',
-	        $('meta[name="csrf-token"]').attr('content'));}
-	    });
-	  }
+	    saveTrack: function(title, roll) {
+	      $.ajax({
+	        url: '/api/tracks',
+	        method: 'POST',
+	        data: JSON.stringify({title: title, roll: roll}),
+	        // dataType: JSON,
+	        contentType: 'application/json',
+	        success(savedTrack) {
+	          recieveOneTrack(savedTrack);
+	        },
+	        error() {
+	          console.log("error");
+	        },
+	        beforeSend(xhr) {xhr.setRequestHeader('X-CSRF-Token',
+	          $('meta[name="csrf-token"]').attr('content'));}
+	        });
+	      }
 	
-	};
-	
+	    };
 	module.exports = Track;
 
 
