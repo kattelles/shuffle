@@ -5,7 +5,11 @@
   "dependencies": {
     "animate.css": "^3.5.1",
     "animejs": "^1.1.0",
-    "webpack": "^1.13.1"
+    "webpack": "^1.13.1",
+    "babel-core": "^6.1.4",
+    "babel-loader": "^6.1.0",
+    "babel-preset-react": "^6.1.4",
+    "babel-preset-es2015": "^6.9.0",
   },
   "devDependencies": {},
   "scripts": {
@@ -25,5 +29,5 @@
 
   "scripts": {
     "postinstall": "./node_modules/.bin/webpack"
-  } 
+  }
 }
