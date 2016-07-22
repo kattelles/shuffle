@@ -10,7 +10,7 @@ shuffle is a dynamic music app created with Javascript, jQuery, HTML5/CSS3, anim
 
 ## Implementation
 
-shuffle uses anime.js to create beautiful animations on key strokes.
+shuffle uses anime.js to create beautiful animations with the keydown event.
 
 ```Javascript
 const createParticle = function(x,y) {
@@ -29,7 +29,26 @@ const createParticle = function(x,y) {
 };
 ```
 
-![image of anime](https://github.com/kattelles/shuffle/blob/master/pics/anime.png)
+Every keydown event also plays sounds with the help of howler.js.
+
+```Javascript
+let howl = new Howl({
+    urls: Sounds[e.keyCode]
+}).play();
+```
+
+A rails backend allows tracks to be saved, played back and deleted. The roll column stores an array of sounds.
+
+```Ruby
+create_table "tracks", force: :cascade do |t|
+  t.string   "title", null: false
+  t.datetime "created_at"
+  t.datetime "updated_at"
+  t.text     "roll", default: [], array: true
+end
+```
+
+![image of tracks](https://github.com/kattelles/shuffle/blob/master/pics/tracks.png)
 
 ## Future Plans
 

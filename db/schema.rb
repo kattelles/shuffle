@@ -17,10 +17,10 @@ ActiveRecord::Schema.define(version: 20160720170850) do
   enable_extension "plpgsql"
 
   create_table "tracks", force: :cascade do |t|
-    t.string   "title",                   null: false
+    t.string   "title", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "roll",       default: [],              array: true
+    t.text     "roll", default: [], array: true
   end
 
 end
